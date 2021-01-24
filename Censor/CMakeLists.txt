@@ -4,5 +4,16 @@ project(Censor LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Добавляю инклуды из текущей директории с проектом
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-add_executable(Censor main.cpp)
+# Добавляю библиотеки
+set (CMAKE_CXX_FLAGS "-lboost_program_options")
+
+# Добавляю сырци
+set(censorSources
+    main.cpp
+    argsparser.cpp
+    )
+
+add_executable(Censor ${censorSources})
