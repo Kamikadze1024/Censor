@@ -25,12 +25,10 @@ elseif (UNIX AND EXISTS /usr/src/gtest)
         set(GMockSrc /usr/src/gmock)
     endif ()
 else ()
-    message(STATUS "AAAAAA ${GOOGLETEST_DIR}")
     message( FATAL_ERROR "No googletest src dir found - set GOOGLETEST_DIR to enable!")
 endif ()
 
 set(GTestFiles ${GTestSrc}/src/gtest-all.cc)
-#set(GTestIncludes ${GTestSrc} ${GTestSrc}/include)
 set(GTestIncludes ${GTestSrc} "/usr/include/gtest")
 
 if (NOT ${GMockSrc} STREQUAL "")
@@ -40,8 +38,16 @@ endif ()
 
 include_directories(${GTestIncludes})
 
+# Добавляю библиотеки
+set (CMAKE_CXX_FLAGS "-lboost_program_options")
+
+# Добавляю сырци
+set(censorSources
+    "../Censor/argsparser.cpp"
+    )
+
 add_executable(CensorTests main.cpp tst_censortests.h
-               ${GTestFiles})
+               ${censorSources} ${GTestFiles})
 add_test(NAME CensorTests COMMAND CensorTests)
 target_link_libraries(CensorTests PRIVATE Threads::Threads)
 
