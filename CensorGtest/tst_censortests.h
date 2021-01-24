@@ -15,7 +15,7 @@ TEST(CensorGtests, CensorTests)
 //включаю файлы, которые буду тестировать
 #include "../Censor/argsparser.hpp"
 
-TEST(CensorGtests, argHelpTest) {
+TEST(CensorGtests, argHelpTest1) {
     //кол-во строк
     int argc = 2;
 
@@ -45,6 +45,68 @@ TEST(CensorGtests, argHelpTest) {
     }
 }
 
+TEST(CensorGtests, argHelpTest2) {
+    //кол-во строк
+    int argc = 2;
 
+    //0 первая строка
+    char firstStr[100] = "/home/user/directory/executableFile";
+
+    //1 вторая строка
+    char secondStr[100] = "-h";
+
+    char *argv[2];
+    argv[0] = firstStr;
+    argv[1] = secondStr;
+
+    try {
+        //Парсер аргументов командной строки
+        std::shared_ptr<Arguments::ArgsParser> argPars
+                = Arguments::ArgsParser::getInstance();
+
+        //паршу аргументы
+        argPars->processCommandLineOptions(argc, argv);
+
+        //если это хелп:
+        ASSERT_EQ(true, argPars->isHelp());
+    } catch (Arguments::ArgsParserException &exc) {
+        std::cout << exc.what() << std::endl;
+        FAIL();
+    }
+}
+
+TEST(CensorGtests, argHelpTest3) {
+    //кол-во строк
+    int argc = 3;
+
+    //0 первая строка
+    char firstStr[100] = "/home/user/directory/executableFile";
+
+    //1 вторая строка
+    char secondStr[100] = "-h";
+
+    //2 третья строка
+    char thirdStr[100] = "-IinputFile.txt";
+
+    char *argv[3];
+    argv[0] = firstStr;
+    argv[1] = secondStr;
+    argv[2] = thirdStr;
+
+    try {
+        //Парсер аргументов командной строки
+        std::shared_ptr<Arguments::ArgsParser> argPars
+                = Arguments::ArgsParser::getInstance();
+
+        //паршу аргументы
+        argPars->processCommandLineOptions(argc, argv);
+
+        //если это хелп:
+        ASSERT_EQ(true, argPars->isHelp());
+    } catch (Arguments::ArgsParserException &exc) {
+        std::cout << exc.what() << std::endl;
+        FAIL();
+    }
+}
 
 #endif // TST_CENSORTESTS_H
