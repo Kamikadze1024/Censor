@@ -7,6 +7,7 @@
 
 uint64_t       CONST_FILE_SIZE   = 9663676416;
 std::string    CONST_STR_PATTERN = "String number is = ";
+uint64_t       CONST_STR_ARR_SZ  = 4096;
 
 //функция создания большого файла
 void createBigFile() {
@@ -62,15 +63,21 @@ void readBigFile() {
     //получаю указатель на начало смапленного файла
     const char *pStartByte = static_cast<const char*>(f.data());
 
-    //устанавливаю указатель на начало последних 100 байт
-    const char *pLastStr = pStartByte + (CONST_FILE_SIZE - 100 - 1);
-
-    //читаю последние 100 байт
-    char arr[100];
-    memcpy(arr, pLastStr, 100);
-    std::string res = arr;
-
-    std::cout << "Res string = " << res << std::endl;
+    //читаю побайтно строки
+    char arr[CONST_STR_ARR_SZ];
+    decltype(CONST_FILE_SIZE) arrIndex = 0;
+    for(decltype(CONST_FILE_SIZE) i = 0; i < CONST_FILE_SIZE; i++) {
+        //заполняю массив
+        arr[arrIndex] = *(pStartByte + i);
+        //когда нашел конец строки, то сохраняю строку в буфер
+        if(arr[arrIndex] == '\n') {
+            std::string str = arr;
+            std::cout << str;
+            //memset(arr, 0, CONST_STR_ARR_SZ);
+            arrIndex = 0;
+        }
+        arrIndex++;
+    }
 
     f.close();
 }
@@ -93,7 +100,10 @@ int main(int argc, char *argv[]) {
     }
 
     //создаю огромный файл
-    createBigFile();
+    //createBigFile();
+
+    //читаю конец большого файла
+    readBigFile();
 
     return 0;
 }
