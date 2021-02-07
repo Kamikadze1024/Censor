@@ -1,16 +1,11 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <boost/iostreams/device/mapped_file.hpp>
-#include <boost/filesystem.hpp>
+#include "FileReader.hpp"
 #include "argsparser.hpp"
 
-uint64_t       CONST_FILE_SIZE   = 9663676416;
-std::string    CONST_STR_PATTERN = "String number is = ";
-uint64_t       CONST_STR_ARR_SZ  = 4096;
-
 //функция создания большого файла
-void createBigFile() {
+/*void createBigFile() {
     std::cout << "Создаю огромный файл" << std::endl;
 
     std::ofstream f("bigFile.txt", std::ios::app | std::ios::out);
@@ -80,7 +75,7 @@ void readBigFile() {
     }
 
     f.close();
-}
+}*/
 
 int main(int argc, char *argv[]) {
     try {
@@ -95,15 +90,24 @@ int main(int argc, char *argv[]) {
         if(argPars->isHelp()) {
             return 0;
         }
+
+        //получить путь к входному файлу
+        std::string inputFileName = argPars->getInputFileName();
+
+        //объект чтения большого файла
+        std::shared_ptr<File::FileReader> inputFr = File::FileReader
+                                                            ::getInstance();
+
+        //устанавливаю имя файла для чтения
+        inputFr->setReadFilePath(inputFileName);
+
+        //читаю файл
+        inputFr->readFile();
     } catch (Arguments::ArgsParserException &exc) {
         std::cout << exc.what() << std::endl;
+    } catch (File::FileException &exc) {
+        std::cout << exc.what() << std::endl;
     }
-
-    //создаю огромный файл
-    //createBigFile();
-
-    //читаю конец большого файла
-    readBigFile();
 
     return 0;
 }

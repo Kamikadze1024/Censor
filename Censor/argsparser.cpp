@@ -137,4 +137,15 @@ bool ArgsParser::isHelp() const {
     return m_isHelp;
 }
 
+//получить имя входного файла
+std::string ArgsParser::getInputFileName() {
+    //если аргументы еще не распаршены
+    if(m_inputFile == "") {
+        std::string excStr = "Не распаршено имя файла";
+        throw ArgsParserException(excStr);
+    }
+
+    return m_inputFile;
+}
+
 }

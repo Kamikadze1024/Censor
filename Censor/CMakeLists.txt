@@ -14,6 +14,7 @@ set (CMAKE_CXX_FLAGS "-lboost_program_options -lboost_filesystem -lboost_iostrea
 set(censorSources
     main.cpp
     argsparser.cpp
+    FileReader.cpp
     )
 
 add_executable(Censor ${censorSources})

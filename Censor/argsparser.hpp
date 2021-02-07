@@ -66,6 +66,9 @@ public:
     //обработать аргументы командной строки
     void processCommandLineOptions(int argc, char *argv[]);
 
+    //получить имя входного файла
+    std::string getInputFileName();
+
     //хелп ли это?
     bool isHelp() const;
 
@@ -76,7 +79,7 @@ public:
     //запрещаю копирующие конструктора и operator=
     ArgsParser(const ArgsParser&)            = delete;
     ArgsParser(ArgsParser&)                  = delete;
-    ArgsParser& operator=(const ArgsParser&) = delete;
+    void operator=(const ArgsParser&)        = delete;
 };
 
 }
