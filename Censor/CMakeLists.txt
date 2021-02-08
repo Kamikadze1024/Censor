@@ -15,6 +15,7 @@ set(censorSources
     main.cpp
     argsparser.cpp
     FileReader.cpp
+    ThreadPool.cpp
     )
 
 add_executable(Censor ${censorSources})
