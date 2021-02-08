@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <string>
+#include "ThreadsafeQueue.hpp"
 
 namespace File {
 
@@ -27,6 +28,9 @@ class FileReader {
 private:
     //путь к файлу, который будем читать
     std::string m_pathToFile;
+
+    //потокобезопасный буфер, куда складываю строки
+    std::shared_ptr<Containers::ThreadsafeQueue<std::string>> m_buffer;
 
     //конструктор по - умолчанию
     FileReader();
@@ -50,6 +54,14 @@ public:
      * Если такой путь не установлен - последует исключение
      */
     void setReadFilePath(std::string filePath);
+
+    /*
+     * Установить потокобезопасный буфер в объект для чтения
+     */
+    void setBuffer(std::shared_ptr<
+                                  Containers::ThreadsafeQueue<
+                                                              std::string>
+                                  > buffer);
 
     /*
      * Прочитать файл

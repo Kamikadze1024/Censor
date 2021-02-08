@@ -38,6 +38,16 @@ void FileReader::setReadFilePath(std::string filePath) {
 }
 
 /*
+ * Установить потокобезопасный буфер в объект для чтения
+ */
+void FileReader::setBuffer(std::shared_ptr<
+                           Containers::ThreadsafeQueue<
+                                                       std::string>
+                           > buffer) {
+    m_buffer = buffer;
+}
+
+/*
  * Прочитать файл
  */
 void FileReader::readFile() {
@@ -87,7 +97,7 @@ void FileReader::readFile() {
                 arr.emplace_back('\n');
                 arr.emplace_back('\0');
                 std::string str = arr.data();
-                std::cout << str;
+                m_buffer->push(str);
                 arrIndex = 0;
                 arr.clear();
                 continue;
