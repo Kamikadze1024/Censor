@@ -1,5 +1,6 @@
 /*
  * Чтение файла со входными данными
+ * Используется паттерн - одиночка
  */
 #ifndef FILEREADER_HPP
 #define FILEREADER_HPP

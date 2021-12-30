@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
         std::shared_ptr<File::FileReader> inputFr = File::FileReader
                                                             ::getInstance();
 
-        //устанавливаю имя файла для чтения
+        //устанавливаю имя файла входного текста для чтения
         inputFr->setReadFilePath(inputFileName);
 
         //устанавливаю указатель на потокобезопасную очередь
@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
         buffer.reset(new Containers::ThreadsafeQueue<std::string>());
         inputFr->setBuffer(buffer);
 
-        //читаю файл
+        //читаю файл входного текста
         inputFr->readFile();
     } catch (Arguments::ArgsParserException &exc) {
         std::cout << exc.what() << std::endl;
