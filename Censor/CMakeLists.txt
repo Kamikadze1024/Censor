@@ -8,7 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Добавляю библиотеки
-set (CMAKE_CXX_FLAGS "-lboost_program_options -lboost_filesystem -lboost_iostreams")
+set (CMAKE_CXX_FLAGS "-lpthread \
+                      -lboost_program_options \
+                      -lboost_filesystem \
+                      -lboost_iostreams")
 
 # Добавляю сырци
 set(censorSources
