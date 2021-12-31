@@ -69,6 +69,11 @@ public:
     //получить имя входного файла
     std::string getInputFileName();
 
+    //получить имя выходного файла
+    std::string getOutputFileName();
+
+    //получить имя
+
     //хелп ли это?
     bool isHelp() const;
 

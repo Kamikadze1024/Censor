@@ -1,9 +1,9 @@
 /*
- * Чтение файла со входными данными
- * Используется паттерн - одиночка
+ * Класс записи в файл
+ * Кашицын Денис <kamikadze1024@yandex.ru>
  */
-#ifndef FILEREADER_HPP
-#define FILEREADER_HPP
+#ifndef FILEWRITER_HPP
+#define FILEWRITER_HPP
 
 #include <memory>
 #include <string>
@@ -11,50 +11,50 @@
 
 namespace File {
 
-//класс исключений чтения
-class FileReadException {
+//класс исключений записи
+class FileWriteException {
 private:
     //сообщение
     std::string m_msg;
 
 public:
-    FileReadException(std::string &msg) : m_msg(msg) {}
+    FileWriteException(std::string &msg) : m_msg(msg) {}
 
     //вывести сообщение об ошибке
     std::string what() const noexcept { return m_msg; }
 };
 
-//класс читалки входного файла
-class FileReader {
+//класс записи выходного файла
+class FileWriter {
 private:
-    //путь к файлу, который будем читать
+    //путь к файлу, в который будем писать
     std::string m_pathToFile;
 
-    //потокобезопасный буфер, куда складываю строки
+    //потокобезопасный буфер, куда сложены строки для записи
     std::shared_ptr<Containers::ThreadsafeQueue<std::string>> m_buffer;
 
     //конструктор по - умолчанию
-    FileReader();
+    FileWriter();
 
 public:
 
     //метод инстанцирования
-    static std::shared_ptr<FileReader> getInstance();
+    static std::shared_ptr<FileWriter> getInstance();
 
     //правило трех
-    ~FileReader();
-    FileReader(FileReader &other)            = delete;
-    FileReader& operator=(FileReader &other) = delete;
+    ~FileWriter();
+    FileWriter(FileWriter &other)            = delete;
+    FileWriter& operator=(FileWriter &other) = delete;
 
     //запрет копирования
-    void operator=(const FileReader &other) = delete;
-    FileReader(const FileReader &other)     = delete;
+    void operator=(const FileWriter &other) = delete;
+    FileWriter(const FileWriter &other)     = delete;
 
     /*
      * Установка пути к файлу, который будем читать
      * Если такой путь не установлен - последует исключение
      */
-    void setReadFilePath(std::string filePath);
+    void setWriteFilePath(std::string filePath);
 
     /*
      * Установить потокобезопасный буфер в объект для чтения
@@ -65,11 +65,11 @@ public:
                                   > buffer);
 
     /*
-     * Прочитать файл
+     * Записать файл
      */
-    void readFile();
+    void writeFile();
 };
 
 }
 
-#endif // FILEREADER_HPP
+#endif // FILEWRITER_HPP

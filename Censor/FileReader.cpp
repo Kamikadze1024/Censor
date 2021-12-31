@@ -54,7 +54,7 @@ void FileReader::readFile() {
     //если нет пути к файлу
     if(m_pathToFile == "") {
         std::string excMsg = "Нет пути к файлу";
-        throw FileException(excMsg);
+        throw FileReadException(excMsg);
     }
 
     try {
@@ -62,7 +62,7 @@ void FileReader::readFile() {
 
         if(!boost::filesystem::exists(p)) {
             std::string excMsg = "Файл недоступен";
-            throw  FileException(excMsg);
+            throw  FileReadException(excMsg);
         }
 
         //получаю размер файла в байтах
@@ -75,13 +75,13 @@ void FileReader::readFile() {
         //проверяю, открыт ли файл
         if(!f.is_open()) {
             std::string excStr = "Мап на файл не открыт";
-            throw FileException(excStr);
+            throw FileReadException(excStr);
         }
 
         //если размер файла и размер мапа не равны - исключение
         if(fileSize != f.size()) {
             std::string excMsg = "Размер мапа не равен размеру файла";
-            throw FileException(excMsg);
+            throw FileReadException(excMsg);
         }
 
         //получаю указатель на начало смапленного файла
@@ -111,7 +111,7 @@ void FileReader::readFile() {
     } catch (std::exception &e) {
         //заменяю внешнее исключение моим
         std::string excStr = e.what();
-        throw FileException(excStr);
+        throw FileReadException(excStr);
     }
 }
 

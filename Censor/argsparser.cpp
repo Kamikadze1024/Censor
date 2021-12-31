@@ -148,4 +148,15 @@ std::string ArgsParser::getInputFileName() {
     return m_inputFile;
 }
 
+//получить имя выходного файла
+std::string ArgsParser::getOutputFileName() {
+    //если аргументы еще не распаршены
+    if(m_outputFile == "") {
+        std::string excStr = "Не распаршено имя файла";
+        throw ArgsParserException(excStr);
+    }
+
+    return m_outputFile;
+}
+
 }
